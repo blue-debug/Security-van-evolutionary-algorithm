@@ -35,6 +35,14 @@ def fitness(array_num):
         print(f'{sum_weight} too heavy, jump it')
         return -1
 
+gernation, times = 10000, 0
+lowest_index = 0
+for i in population:
+    if (fitness(population[i]) < lowest_fitness):
+        lowest_fitness = fitness(population[i])
+        lowest_index = i
+print(lowest_fitness, lowest_index)
+
 import sys
 sys.setrecursionlimit(11000)
 
@@ -86,3 +94,5 @@ def mutation():
             
     times += 1
     if (times < gernation): mutation()
+
+mutation()
