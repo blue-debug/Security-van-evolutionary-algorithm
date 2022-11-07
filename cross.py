@@ -19,6 +19,21 @@ while i < len(data):
     i += 1  
     ## convert txt to dict with float
 
+for times in range(p): ## inital
+    temp, sum = [], 0 ## sum为当前背包重量 temp为当前队列
+    while (True):
+        now_key = random.randint(0, 99)
+        if (now_key not in temp):
+            temp.append(now_key)
+            sum += dict[now_key][0]
+            if (sum > tol_value):
+                temp.pop()
+                sum -= dict[now_key][0]
+                break
+        # print(f'总和为{sum} 选取{now_key}bag 增加{dict[now_key][0]}')
+    population[times] = temp
+print(population)
+
 def fitness(array_num):
     sum_fit, sum_weight = 0, 0
     sum_value = 0
