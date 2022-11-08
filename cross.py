@@ -66,7 +66,7 @@ def mutation():
     # binary tournament
     # a = [random.randint(0, p - 1) for _ in range(2)]
     
-    global times, lowest_index
+    global times, lowest_index, lowest_fitness
     
     # parents = [random.randint(0, p - 1) for _ in range(2)]
     # print(population)
@@ -106,6 +106,7 @@ def mutation():
         for i in population:
             if (fitness(population[i]) < fitness(population[lowest_index])):
                 lowest_index = i
+                lowest_fitness = fitness(population[i])
 
             
     times += 1
