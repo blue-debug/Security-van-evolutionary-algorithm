@@ -52,6 +52,7 @@ def fitness(array_num):
 
 gernation, times = 10000, 0
 lowest_index = 0
+lowest_fitness = fitness(population[lowest_index])
 for i in population:
     if (fitness(population[i]) < lowest_fitness):
         lowest_fitness = fitness(population[i])
