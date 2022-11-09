@@ -41,7 +41,7 @@ def fitness(array_num):
         sum_fit += dict[i][1] / dict[i][0]
         sum_weight += dict[i][0]
         sum_value += dict[i][1]
-    # print(sum_weight, sum_weight)
+        # sum_fit = sum_value
     # sum_ = [sum_ += dict[j][0] for i in array for j in population[i]]
     if sum_weight < 285 :
         return sum_fit
@@ -106,7 +106,6 @@ def mutation():
             if (fitness(population[i]) < fitness(population[lowest_index])):
                 lowest_index = i
                 lowest_fitness = fitness(population[i])
-
             
     times += 1
     if (times < gernation): mutation()
@@ -120,7 +119,7 @@ index, sum_value = 0, 0
 for i in population:
     sum = 0
     for j in population[i]:
-        sum += j
+        sum += dict[j][1]
     
     print(i, "value is", sum, fitness(population[i]))
     if (sum > sum_value):
