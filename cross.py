@@ -1,4 +1,3 @@
-import os
 import random
 import re
 
@@ -113,3 +112,22 @@ def mutation():
     if (times < gernation): mutation()
 
 mutation()
+
+print(population)
+
+index, sum_value = 0, 0
+
+for i in population:
+    sum = 0
+    for j in population[i]:
+        sum += j
+    
+    print(i, "value is", sum, fitness(population[i]))
+    if (sum > sum_value):
+        index = i
+        sum_value = sum
+
+print("max", index, sum_value)
+
+
+
