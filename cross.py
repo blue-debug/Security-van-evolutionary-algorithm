@@ -76,10 +76,13 @@ def mutation():
             break
         
     p1, p2 = population[i], population[j]
-    index = random.randint(0, len(p1) if len(p1) < len(p2) else len(p2))
     
     print(f'round {times + 1}')
     # print(parents, index, len(p1), len(p2))
+
+# crossover
+
+    index = random.randint(0, len(p1) if len(p1) < len(p2) else len(p2))
     
     e = p1[0 : index] + p2[index : len(p2)]
     f = p2[0 : index] + p1[index: len(p1)]
@@ -97,6 +100,13 @@ def mutation():
     else:
         child = f
 
+    child_old = child
+    child = []
+    for i in child_old:
+        if i not in child:
+            child.append(i)
+
+# mutation
     if (fitness(child) > fitness(population[lowest_index])):
         population[lowest_index] = child
         print(f'mutation successfully number {lowest_index} changed')
@@ -118,10 +128,12 @@ index, sum_value = 0, 0
 
 for i in population:
     sum = 0
+    sum_weight = 0
     for j in population[i]:
         sum += dict[j][1]
+        sum_weight += dict[j][0]
     
-    print(i, "value is", sum, fitness(population[i]))
+    print(i, "value is", sum, "weight is", sum_weight, fitness(population[i]))
     if (sum > sum_value):
         index = i
         sum_value = sum
