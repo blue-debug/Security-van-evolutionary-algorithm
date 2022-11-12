@@ -51,18 +51,6 @@ def fitness(array_num):
         print(f'{sum_weight} too heavy, jump it')
         return -1
 
-import sys
-sys.setrecursionlimit(11000)
-
-round = 0
-lowest_index = 0
-lowest_fitness = fitness(population[lowest_index])
-for i in population:
-    if (fitness(population[i]) < lowest_fitness):
-        lowest_fitness = fitness(population[i])
-        lowest_index = i
-print(lowest_fitness, lowest_index)
-    
 def mutation(kid, times):
     for _ in range(times):
         while(True):
@@ -81,6 +69,19 @@ def crossover(parent_l, parent_r):
     # res = parent_l[0 : index] if random.randint(0, 1) else parent_l[index : len(parent_l)] + parent_r[0 : index] if random.randint(0, 1) else parent_r[index : len(parent_r)]
     res = parent_l[0 : index] + parent_r[index : len(parent_r)]
     return res
+
+
+import sys
+sys.setrecursionlimit(11000)
+
+round = 0
+lowest_index = 0
+lowest_fitness = fitness(population[lowest_index])
+for i in population:
+    if (fitness(population[i]) < lowest_fitness):
+        lowest_fitness = fitness(population[i])
+        lowest_index = i
+print(lowest_fitness, lowest_index)
 
 def main():
     # binary tournament
