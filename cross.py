@@ -48,7 +48,7 @@ def fitness(array_num):
         print(f'{sum_weight} too heavy, jump it')
         return -1
 
-gernation, times = 10000, 0
+gernation, round = 10000, 0
 lowest_index = 0
 lowest_fitness = fitness(population[lowest_index])
 for i in population:
@@ -59,15 +59,31 @@ print(lowest_fitness, lowest_index)
 
 import sys
 sys.setrecursionlimit(11000)
+    
+def mutation(kid, times):
+    for _ in range(times):
+        while(True):
+            mutation_index = random.randint(0, 99)
+            if (mutation_index not in kid):
+                kid[random.randint(0, len(kid)) - 1] = mutation_index
+                break
+    return kid
 
-def mutation():
+def crossover(parent_l, parent_r):
+    # single point crossover
+    # e = p1[0 : index] + p2[index : len(p2)]
+    # f = p2[0 : index] + p1[index : len(p1)]
+
+    index = random.randint(1, len(parent_l) - 1 if len(parent_l) < len(parent_r) else len(parent_r) - 1)
+    # res = parent_l[0 : index] if random.randint(0, 1) else parent_l[index : len(parent_l)] + parent_r[0 : index] if random.randint(0, 1) else parent_r[index : len(parent_r)]
+    res = parent_l[0 : index] + parent_r[index : len(parent_r)]
+    return res
+
+def main():
     # binary tournament
+    global round, lowest_index, lowest_fitness
     # a = [random.randint(0, p - 1) for _ in range(2)]
-    
-    global times, lowest_index, lowest_fitness
-    
     # parents = [random.randint(0, p - 1) for _ in range(2)]
-    # print(population)
     while (True):
         i = random.randint(0, len(population) - 1)
         j = random.randint(0, len(population) - 1)
@@ -76,29 +92,21 @@ def mutation():
         
     p1, p2 = population[i], population[j]
     
-    print(f'round {times + 1}')
-    # print(parents, index, len(p1), len(p2))
+    print(f'round {round + 1}')
 
 # crossover
-
-    index = random.randint(0, len(p1) if len(p1) < len(p2) else len(p2))
-    
-    e = p1[0 : index] if random.randint(0, 1) else p1[index : len(p1)] + p2[0 : index] if random.randint(0, 1) else p2[index : len(p1)]
-    f = p2[0 : index] if random.randint(0, 1) else p2[index : len(p1)] + p1[0 : index] if random.randint(0, 1) else p1[index : len(p1)]
-
+    # index = random.randint(1, len(p1) - 1 if len(p1) < len(p2) else len(p2) - 1)
+    # e = p1[0 : index] if random.randint(0, 1) else p1[index : len(p1)] + p2[0 : index] if random.randint(0, 1) else p2[index : len(p1)]
+    # f = p2[0 : index] if random.randint(0, 1) else p2[index : len(p1)] + p1[0 : index] if random.randint(0, 1) else p1[index : len(p1)]
     # e = p1[0 : index] + p2[index : len(p2)]
     # f = p2[0 : index] + p1[index: len(p1)]
 
-    e = p1
-    f = p2
-    
+    e = crossover(p1, p2)
+    f = crossover(p1, p2)
+
     # mutation 1 times TODO: mulity mutation
-    while (True): 
-        a, b = random.randint(0, 99), random.randint(0, 99)
-        if (a != b and a not in p1 and b not in p2):
-            e[random.randint(0, len(e)) - 1] = a
-            f[random.randint(0, len(f)) - 1] = b
-            break
+    e = mutation(e, 1)
+    f = mutation(f, 1)
     
     if (fitness(e) > fitness(f)):
         child = e
@@ -114,7 +122,7 @@ def mutation():
 
     if (fitness(child) > fitness(population[lowest_index])):
         population[lowest_index] = child
-        print(f'mutation successfully number {lowest_index} changed')
+        print(f'mutation successfully pop {lowest_index} changed')
         lowest_fitness = fitness(child)
         
         for i in population:
@@ -122,10 +130,10 @@ def mutation():
                 lowest_index = i
                 lowest_fitness = fitness(population[i])
             
-    times += 1
-    if (times < gernation): mutation()
+    round += 1
+    if (round < gernation): main()
 
-mutation()
+main()
 
 print(population)
 
