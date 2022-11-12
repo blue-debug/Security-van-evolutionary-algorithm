@@ -7,7 +7,7 @@ import re
 population = {}
 dict = {}
 p = 10
-tol_value =  285
+tol_weight =  285
 gernation = 10000 
 
 
@@ -28,28 +28,12 @@ for times in range(p): ## inital
         if (now_key not in temp):
             temp.append(now_key)
             sum += dict[now_key][0]
-            if (sum > tol_value):
+            if (sum > tol_weight):
                 temp.pop()
                 sum -= dict[now_key][0]
                 break
     population[times] = temp
 print(population)
-
-def fitness(array_num):
-    sum_fit, sum_weight = 0, 0
-    sum_value = 0
-    # print(array_num)
-    for i in array_num:
-        sum_fit += dict[i][1] / dict[i][0]
-        sum_weight += dict[i][0]
-        sum_value += dict[i][1]
-        # sum_fit = sum_value
-    # sum_ = [sum_ += dict[j][0] for i in array for j in population[i]]
-    if sum_weight < 285 :
-        return sum_fit
-    else:
-        print(f'{sum_weight} too heavy, jump it')
-        return -1
 
 def mutation(kid, times):
     for _ in range(times):
@@ -70,6 +54,23 @@ def crossover(parent_l, parent_r):
     res = parent_l[0 : index] + parent_r[index : len(parent_r)]
     return res
 
+def fitness(array_num):
+    sum_fit, sum_weight = 0, 0
+    sum_value = 0
+    # print(array_num)
+    for i in array_num:
+        sum_fit += dict[i][1] / dict[i][0]
+        sum_weight += dict[i][0]
+        sum_value += dict[i][1]
+        # sum_fit = sum_value
+    # sum_ = [sum_ += dict[j][0] for i in array for j in population[i]]
+    if sum_weight < 285 :
+        # print(sum_fit, (tol_weight - sum_weight) / tol_weight, "fitness", sum_fit * (tol_weight - sum_weight) / tol_weight,)
+        return sum_fit * sum_value
+    else:
+        print(f'{sum_weight} too heavy, jump it')
+        return -1
+
 
 import sys
 sys.setrecursionlimit(11000)
@@ -81,6 +82,7 @@ for i in population:
     if (fitness(population[i]) < lowest_fitness):
         lowest_fitness = fitness(population[i])
         lowest_index = i
+        
 print(lowest_fitness, lowest_index)
 
 def main():
@@ -118,8 +120,8 @@ def main():
 
     if (fitness(child) > fitness(population[lowest_index])):
         population[lowest_index] = child
-        print(f'mutation successfully pop {lowest_index} changed')
         lowest_fitness = fitness(child)
+        print(f'pop {lowest_index} will be changed')
         
         for i in population:
             if (fitness(population[i]) < fitness(population[lowest_index])):
@@ -142,7 +144,7 @@ for i in population:
         sum += dict[j][1]
         sum_weight += dict[j][0]
     
-    print(i, "value is", sum, "weight is", sum_weight, fitness(population[i]))
+    print(i, "value is", sum, "weight is", sum_weight, "fitness is",  fitness(population[i]))
     if (sum > sum_value):
         index = i
         sum_value = sum
