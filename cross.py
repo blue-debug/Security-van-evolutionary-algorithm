@@ -19,7 +19,7 @@ while i < len(data):
     ## convert txt to dict with float
 
 for times in range(p): ## inital
-    temp, sum = [], 0 ## sum为当前背包重量 temp为当前队列
+    temp, sum = [], 0
     while (True):
         now_key = random.randint(0, 99)
         if (now_key not in temp):
@@ -29,7 +29,6 @@ for times in range(p): ## inital
                 temp.pop()
                 sum -= dict[now_key][0]
                 break
-        # print(f'总和为{sum} 选取{now_key}bag 增加{dict[now_key][0]}')
     population[times] = temp
 print(population)
 
@@ -84,8 +83,14 @@ def mutation():
 
     index = random.randint(0, len(p1) if len(p1) < len(p2) else len(p2))
     
-    e = p1[0 : index] + p2[index : len(p2)]
-    f = p2[0 : index] + p1[index: len(p1)]
+    e = p1[0 : index] if random.randint(0, 1) else p1[index : len(p1)] + p2[0 : index] if random.randint(0, 1) else p2[index : len(p1)]
+    f = p2[0 : index] if random.randint(0, 1) else p2[index : len(p1)] + p1[0 : index] if random.randint(0, 1) else p1[index : len(p1)]
+
+    # e = p1[0 : index] + p2[index : len(p2)]
+    # f = p2[0 : index] + p1[index: len(p1)]
+
+    e = p1
+    f = p2
     
     # mutation 1 times TODO: mulity mutation
     while (True): 
@@ -106,7 +111,7 @@ def mutation():
         if i not in child:
             child.append(i)
 
-# mutation
+
     if (fitness(child) > fitness(population[lowest_index])):
         population[lowest_index] = child
         print(f'mutation successfully number {lowest_index} changed')
