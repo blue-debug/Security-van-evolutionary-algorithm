@@ -51,6 +51,9 @@ def fitness(array_num):
         print(f'{sum_weight} too heavy, jump it')
         return -1
 
+import sys
+sys.setrecursionlimit(11000)
+
 round = 0
 lowest_index = 0
 lowest_fitness = fitness(population[lowest_index])
@@ -59,9 +62,6 @@ for i in population:
         lowest_fitness = fitness(population[i])
         lowest_index = i
 print(lowest_fitness, lowest_index)
-
-import sys
-sys.setrecursionlimit(11000)
     
 def mutation(kid, times):
     for _ in range(times):
