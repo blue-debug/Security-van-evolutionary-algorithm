@@ -97,7 +97,7 @@ def main():
     
     print(f'round {round + 1}')
 
-# crossover
+    # crossover
     # index = random.randint(1, len(p1) - 1 if len(p1) < len(p2) else len(p2) - 1)
     # e = p1[0 : index] if random.randint(0, 1) else p1[index : len(p1)] + p2[0 : index] if random.randint(0, 1) else p2[index : len(p1)]
     # f = p2[0 : index] if random.randint(0, 1) else p2[index : len(p1)] + p1[0 : index] if random.randint(0, 1) else p1[index : len(p1)]
@@ -107,7 +107,6 @@ def main():
     e = crossover(p1, p2)
     f = crossover(p1, p2)
 
-    # mutation 1 times TODO: mulity mutation
     e = mutation(e, 1)
     f = mutation(f, 1)
     
