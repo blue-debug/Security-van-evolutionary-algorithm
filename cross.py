@@ -7,7 +7,10 @@ import re
 population = {}
 dict = {}
 p = 10
-tol_value =  285 
+tol_value =  285
+gernation = 10000 
+
+
 f = open("BankProblem.txt", 'r')
 data = f.readlines()
 
@@ -48,7 +51,7 @@ def fitness(array_num):
         print(f'{sum_weight} too heavy, jump it')
         return -1
 
-gernation, round = 10000, 0
+round = 0
 lowest_index = 0
 lowest_fitness = fitness(population[lowest_index])
 for i in population:
