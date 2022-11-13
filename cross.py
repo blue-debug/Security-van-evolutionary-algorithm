@@ -49,15 +49,15 @@ def crossover(parent_l, parent_r):
     # e = p1[0 : index] + p2[index : len(p2)]
     # f = p2[0 : index] + p1[index : len(p1)]
 
-    index = random.randint(1, len(parent_l) - 1 if len(parent_l) < len(parent_r) else len(parent_r) - 1)
     # res = parent_l[0 : index] if random.randint(0, 1) else parent_l[index : len(parent_l)] + parent_r[0 : index] if random.randint(0, 1) else parent_r[index : len(parent_r)]
+    # Maxium single Crossover 
+    index = random.randint(1, len(parent_l) - 1 if len(parent_l) < len(parent_r) else len(parent_r) - 1)
     res = parent_l[0 : index] + parent_r[index : len(parent_r)]
     return res
 
 def fitness(array_num):
-    sum_fit, sum_weight = 0, 0
-    sum_value = 0
-    # print(array_num)
+    sum_fit, sum_weight, sum_value = 0, 0, 0
+
     for i in array_num:
         sum_fit += dict[i][1] / dict[i][0]
         sum_weight += dict[i][0]
@@ -71,6 +71,13 @@ def fitness(array_num):
         print(f'{sum_weight} too heavy, jump it')
         return -1
 
+def binary_tournament():
+    while (True):
+        i = random.randint(0, len(population) - 1)
+        j = random.randint(0, len(population) - 1)
+        if i != j:
+            break
+    return i if fitness(population[i]) > fitness(population[j]) else j
 
 import sys
 sys.setrecursionlimit(11000)
@@ -86,17 +93,12 @@ for i in population:
 print(lowest_fitness, lowest_index)
 
 def main():
-    # binary tournament
     global round, lowest_index, lowest_fitness
     # a = [random.randint(0, p - 1) for _ in range(2)]
     # parents = [random.randint(0, p - 1) for _ in range(2)]
-    while (True):
-        i = random.randint(0, len(population) - 1)
-        j = random.randint(0, len(population) - 1)
-        if i != j:
-            break
-        
-    p1, p2 = population[i], population[j]
+
+    p1 = population[binary_tournament()]
+    p2 = population[binary_tournament()]
     
     print(f'round {round + 1}')
 
@@ -116,7 +118,6 @@ def main():
     for i in child_old:
         if i not in child:
             child.append(i)
-
 
     if (fitness(child) > fitness(population[lowest_index])):
         population[lowest_index] = child
