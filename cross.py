@@ -8,8 +8,8 @@ population = {}
 dict = {}
 p = 10
 tol_weight =  285
-gernation = 10000 
-
+gernation = 10000
+mutation_times = 1
 
 f = open("BankProblem.txt", 'r')
 data = f.readlines()
@@ -83,8 +83,7 @@ def binary_tournament():
     while (True):
         i = random.randint(0, len(population) - 1)
         j = random.randint(0, len(population) - 1)
-        if i != j:
-            break
+        if i != j: break
     return i if fitness(population[i]) > fitness(population[j]) else j
 
 import sys
@@ -113,8 +112,8 @@ def main():
     e = crossover(p1, p2)
     f = crossover(p1, p2)
 
-    e = mutation(e, 1)
-    f = mutation(f, 1)
+    e = mutation(e, mutation_times)
+    f = mutation(f, mutation_times)
     
     if (fitness(e) > fitness(f)):
         child = e
@@ -138,7 +137,7 @@ main()
 
 print(population)
 
-index, sum_value = 0, 0
+index, max_value, max_weight = 0, 0, 0
 
 for i in population:
     sum = 0
@@ -148,11 +147,14 @@ for i in population:
         sum_weight += dict[j][0]
     
     print(i, "value is", sum, "weight is", sum_weight, "fitness is",  fitness(population[i]))
-    if (sum > sum_value):
+    if (sum > max_value):
         index = i
-        sum_value = sum
+        max_value = sum
+        max_weight = sum_weight
 
-print("max", index, sum_value)
+print(f'best {max_value} {max_weight} {p} {mutation_times}')
 
+# test cmd
+# for i in `seq 1 10`; do python3 cross.py | grep best; done 
 
 
