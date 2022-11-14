@@ -47,7 +47,12 @@ def crossover(parent_l, parent_r):
 
     # Maxium single Crossover 
 
-    return res
+    child_old = res
+    child = []
+    for i in child_old:
+        if i not in child:
+            child.append(i)
+    return child
 
 def mutation(kid, times):
     for _ in range(times):
@@ -56,13 +61,7 @@ def mutation(kid, times):
             if (mutation_index not in kid):
                 kid[random.randint(0, len(kid)) - 1] = mutation_index
                 break
-
-    child_old = kid
-    child = []
-    for i in child_old:
-        if i not in child:
-            child.append(i)
-    return child
+    return kid
 
 def fitness(array_num):
     sum_fit, sum_weight, sum_value = 0, 0, 0
