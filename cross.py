@@ -35,6 +35,20 @@ for times in range(p): ## inital
     population[times] = temp
 print(population)
 
+def crossover(parent_l, parent_r):
+    # single point crossover
+    # e = p1[0 : index] + p2[index : len(p2)]
+    # f = p2[0 : index] + p1[index : len(p1)]
+    # res = parent_l[0 : index] + parent_r[index : len(parent_r)]
+
+    index = random.randint(1, len(parent_l) - 1 if len(parent_l) < len(parent_r) else len(parent_r) - 1)
+    res = parent_l[0 : index] if random.randint(0, 1) else parent_l[index : len(parent_l)] + parent_r[0 : index] if len(parent_r) - index < index else parent_r[index : len(parent_r)]
+    # res = parent_l[0 : index] if random.randint(0, 1) else parent_l[index : len(parent_l)] + parent_r[0 : index] if random.randint(0, 1) else parent_r[index : len(parent_r)]
+
+    # Maxium single Crossover 
+
+    return res
+
 def mutation(kid, times):
     for _ in range(times):
         while(True):
@@ -42,18 +56,13 @@ def mutation(kid, times):
             if (mutation_index not in kid):
                 kid[random.randint(0, len(kid)) - 1] = mutation_index
                 break
-    return kid
 
-def crossover(parent_l, parent_r):
-    # single point crossover
-    # e = p1[0 : index] + p2[index : len(p2)]
-    # f = p2[0 : index] + p1[index : len(p1)]
-
-    # res = parent_l[0 : index] if random.randint(0, 1) else parent_l[index : len(parent_l)] + parent_r[0 : index] if random.randint(0, 1) else parent_r[index : len(parent_r)]
-    # Maxium single Crossover 
-    index = random.randint(1, len(parent_l) - 1 if len(parent_l) < len(parent_r) else len(parent_r) - 1)
-    res = parent_l[0 : index] + parent_r[index : len(parent_r)]
-    return res
+    child_old = kid
+    child = []
+    for i in child_old:
+        if i not in child:
+            child.append(i)
+    return child
 
 def fitness(array_num):
     sum_fit, sum_weight, sum_value = 0, 0, 0
@@ -112,12 +121,6 @@ def main():
         child = e
     else:
         child = f
-
-    child_old = child
-    child = []
-    for i in child_old:
-        if i not in child:
-            child.append(i)
 
     if (fitness(child) > fitness(population[lowest_index])):
         population[lowest_index] = child
