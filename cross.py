@@ -1,5 +1,6 @@
 import random
 import re
+import matplotlib.pyplot as plt
 
 #with open("BankProblem.txt") as file_pi
     #data = file_pi.read()
@@ -99,6 +100,8 @@ for i in population:
         
 print(lowest_fitness, lowest_index)
 
+average_fitness = []
+
 def main():
     global round, lowest_index, lowest_fitness
     # a = [random.randint(0, p - 1) for _ in range(2)]
@@ -129,7 +132,20 @@ def main():
             if (fitness(population[i]) < fitness(population[lowest_index])):
                 lowest_index = i
                 lowest_fitness = fitness(population[i])
-            
+
+    max_value = 0
+    for i in population:
+        sum = 0
+        sum_weight = 0
+        for j in population[i]:
+            sum += dict[j][1]
+            sum_weight += dict[j][0]
+        
+        if (sum > max_value):
+            max_value = sum
+    
+    average_fitness.append(max_value)
+
     round += 1
     if (round < gernation): main()
 
@@ -153,6 +169,10 @@ for i in population:
         max_weight = sum_weight
 
 print(f'best {max_value} {max_weight} {p} {mutation_times}')
+
+x = range(len(average_fitness))
+plt.plot(x, average_fitness)
+
 
 # test cmd
 # for i in `seq 1 10`; do python3 cross.py | grep best; done 
