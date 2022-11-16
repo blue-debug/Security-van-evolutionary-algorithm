@@ -43,17 +43,17 @@ def crossover(parent_l, parent_r):
     # res = parent_l[0 : index] + parent_r[index : len(parent_r)]
 
     index = random.randint(1, len(parent_l) - 1 if len(parent_l) < len(parent_r) else len(parent_r) - 1)
-    res = parent_l[0 : index] if random.randint(0, 1) else parent_l[index : len(parent_l)] + parent_r[0 : index] if len(parent_r) - index < index else parent_r[index : len(parent_r)]
-    # res = parent_l[0 : index] if random.randint(0, 1) else parent_l[index : len(parent_l)] + parent_r[0 : index] if random.randint(0, 1) else parent_r[index : len(parent_r)]
+    res = parent_l[0 : index] if random.randint(0, 1) else parent_l[index : len(parent_l)] + parent_r[0 : index] if random.randint(0, 1) else parent_r[index : len(parent_r)]
 
-    # Maxium single Crossover 
-
-    child_old = res
-    child = []
-    for i in child_old:
-        if i not in child:
-            child.append(i)
-    return child
+    for i in res:
+        count = 0
+        for j in res:
+            if (i == j):
+                count += 1
+        if count >= 2:
+            return [1, 1, 1, 1]
+                
+    return res
 
 def mutation(kid, times):
     for _ in range(times):
