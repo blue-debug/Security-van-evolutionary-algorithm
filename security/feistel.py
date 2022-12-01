@@ -18,19 +18,41 @@ def encrypt(input, rounds, roundkeys):
 	input_r.append(bin(int(input[len(input) // 2 :], 2)))
 	print(f'round 1 {input_l} {input_r}')
 
-	for i in range(rounds):
-		if i == 0: continue
-		input_l.append(input_r[i - 1])
+	index = 1
+	while (index < rounds):
+		if index == 0: continue
+		input_l.append(input_r[index - 1])
 		# print(bin(int(input_l[i - 1], 2)), F(input_r[i - 1], roundkeys[i]), bin(int(input_l[i - 1], 2) ^ F(input_r[i - 1], roundkeys[i])))
-		input_r.append(bin(int(input_l[i - 1], 2) ^ F(input_r[i - 1], roundkeys[i])))
-		print(f'round {i + 1} {input_l} {input_r}')
+		input_r.append(bin(int(input_l[index - 1], 2) ^ F(input_r[index - 1], roundkeys[index])))
+		print(f'round {index + 1} {input_l} {input_r}')
+		index += 1
 	
 	print(input_l[-1], input_r[-1])	
 	return ((6 - len(input_l[-1])) * "0" + str(input_l[-1]) + (6 - len(input_r[-1])) * "0" + str(input_r[-1])).replace("0b", "")
 
 def decrypt(input, rounds, roundkeys):
 	#TODO: Implement decryption of "input" in "rounds" rounds, using round keys "roundkeys"
-	return "11111111"
+	# Ri = Li+1
+    # Li = Ri+1 XOR F(Li+1,Ki)
+	# https://cloud.tencent.com/developer/article/1847884
+
+	input_l, input_r = [], []
+	input_l.append(bin(int(input[0 : (len(input) // 2)], 2)))
+	input_r.append(bin(int(input[len(input) // 2 :], 2)))
+	print(f'round 1 {input_l} {input_r}')
+
+	index = rounds
+
+	while (index > 0):
+		if index == rounds: continue
+		input_l.append(input_r[rounds - index])
+		# print(bin(int(input_l[i - 1], 2)), F(input_r[i - 1], roundkeys[i]), bin(int(input_l[i - 1], 2) ^ F(input_r[i - 1], roundkeys[i])))
+		input_r.append(bin(int(input_l[rounds - index + 1], 2) ^ F(input_r[rounds - index + 1], roundkeys[rounds - index])))
+		print(f'round {rounds - index - 1} {input_l} {input_r}')
+		index -= 1
+
+	print(input_l[-1], input_r[-1])	
+	return ((6 - len(input_l[-1])) * "0" + str(input_l[-1]) + (6 - len(input_r[-1])) * "0" + str(input_r[-1])).replace("0b", "")
 
 def F(input, key):
 	return int(input, 2) & int(key, 2) + 1
