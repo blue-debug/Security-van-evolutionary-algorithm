@@ -152,46 +152,26 @@ for c in cat:
 	if (c == 'A' or c == 'B' or c =='C'):
 		charliecurrentcat.append(c)
 
-def domfunction(o, s, name, function):
+def switch_function(o, s, name, function):
     # print(o,s,name,function)
     for index, value in enumerate(o):
         if value == '1':
             docv = 'A'
-            if docv in s:
-                #print(name,'',function,' is pass')
-                pass
+            if docv in s: pass
             docv = 'B'
-            if docv in s:
-                # rint(name,'',function,' is pass')    
-                pass
-            else :
-                # print(name,'',function,' is failed')
-                return False
+            if docv in s: pass
+            else : return False
         elif value == '2':
             docv = 'C'
-            if docv in s:
-                # print(name,'',function,' is pass')
-                pass
-            else :
-                # print(name,'',function,' is failed')
-                return False
+            if docv in s: pass
+            else : return False
         elif value == '3':
             docv = 'B'
-            if docv in s:
-                # print(name,'',function,' is pass')
-                pass
-            else :
-                # print(name,'',function,' is failed')
-                return False
-    # print('true')
+            if docv in s: pass
+            else : return False
     return True
 
-docs_security_levels = {"1": {'A': 'l', 'B': 'l', 'C': 'h'}, "2": {'A': 'l', 'B': 'l', 'C': 'h'},
-                        "3": {'A': 'l', 'B': 'h', 'C': 'l'}}
-doc1_security_levels = {'l': ['A', 'B']}
-doc2_security_levels = {'h': ['C']}
-doc3_security_levels = {'h': ['B']}
-    
+
 def ssc(alice, bob, charlie):
     circle = [alice, bob, charlie]
     circle_name = ['alice', 'bob', 'charlie']
@@ -206,7 +186,7 @@ def ssc(alice, bob, charlie):
             rights = next(iter(obj.values()))
             if rights == 'w' or rights == 'r':
                 # print(f'{circle_name[i]} ssc check is starting')
-                res = domfunction(doc, alicemaxcat if circle_name[i] == 'alice' else bobmaxcat if circle_name[i] == 'bob' else charliemaxcat, circle_name[i], 'ssc')
+                res = switch_function(doc, alicemaxcat if circle_name[i] == 'alice' else bobmaxcat if circle_name[i] == 'bob' else charliemaxcat, circle_name[i], 'ssc')
                 if not res: 
                     # print('fail')
                     return False
@@ -221,7 +201,7 @@ def star(alice, bob, charlie):
             doc = next(iter(obj))
             rights = next(iter(obj.values()))
             if rights == 'a' or rights == 'r' or rights == 'w':
-                res = domfunction(doc, alicecurrentcat if circle_name[i] == 'alice' else bobcurrentcat if circle_name[i] == 'bob' else charliecurrentcat, circle_name[i], 'star')
+                res = switch_function(doc, alicecurrentcat if circle_name[i] == 'alice' else bobcurrentcat if circle_name[i] == 'bob' else charliecurrentcat, circle_name[i], 'star')
                 if not res: return False
     return True
 
