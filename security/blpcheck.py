@@ -183,7 +183,7 @@ def domfunction(o, s, name, function):
             else :
                 # print(name,'',function,' is failed')
                 return False
-    print('true')
+    # print('true')
     return True
 
 docs_security_levels = {"1": {'A': 'l', 'B': 'l', 'C': 'h'}, "2": {'A': 'l', 'B': 'l', 'C': 'h'},
@@ -208,7 +208,7 @@ def ssc(alice, bob, charlie):
                 # print(f'{circle_name[i]} ssc check is starting')
                 res = domfunction(doc, alicemaxcat if circle_name[i] == 'alice' else bobmaxcat if circle_name[i] == 'bob' else charliemaxcat, circle_name[i], 'ssc')
                 if not res: 
-                    print('fail')
+                    # print('fail')
                     return False
     return True
 
