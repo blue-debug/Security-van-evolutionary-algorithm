@@ -211,7 +211,7 @@ def star(alice, bob, charlie):
             if rights == 'a' or rights == 'r' or rights == 'w':
                 result = domfunction(doc, alicecurrentcat if circle_name[i] == 'alice' else bobcurrentcat if circle_name[i] == 'bob' else charliecurrentcat, circle_name[i], 'star')
                 if result == 'fail': return False
-    return False
+    return True
 
 def ds(alice, bob, charlie):
     circle = [alice, bob, charlie]
@@ -222,6 +222,7 @@ def ds(alice, bob, charlie):
             rights = next(iter(obj.values()))
             if list((rightsalice if circle_name[i] == 'alice' else rightsbob if circle_name[i] == 'bob' else rightscharlie).values()).count(rights) > 0:
                 print(f'{circle_name[i]} ds check passed')
+    return True
 
     # if len(alice) !=0:	 
     #     alice_rights = next(iter(alice.values()))
@@ -236,7 +237,7 @@ def ds(alice, bob, charlie):
     #     charlis_rights = next(iter(charlie.values()))
     #     if list(rightscharlie).count(charlis_rights) > 0:
     #         print('charlie ds check is pass')
-    return True
+
 
 
 alice = {}
