@@ -177,7 +177,7 @@ def ssc(alice, bob, charlie):
     circle_name = ['alice', 'bob', 'charlie']
     # circle = [{'alice', alice}, {'bob', bob}, {'charlice',charlie}]
     for i in range(len(circle)):
-        print(i)
+        # print(i)
         obj = circle[i]
         # print(i, obj)
         if len(obj):
