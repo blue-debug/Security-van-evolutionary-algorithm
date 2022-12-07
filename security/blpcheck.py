@@ -153,7 +153,7 @@ for c in cat:
 		charliecurrentcat.append(c)
 
 #MAIN
-def domfunction(o,s,name,function):
+def domfunction(o, s, name, function):
     # print(o,s,name,function)
     for index,value in enumerate(o):
         if value == '1':
@@ -165,21 +165,21 @@ def domfunction(o,s,name,function):
                 print(name,'',function,' is pass')    
             else :
                 print(name,'',function,' is failed')
-                return 'fail'
+                return False
         elif value == '2':
             docv = 'C'
             if docv in s:
                 print(name,'',function,' is pass')
             else :
                 print(name,'',function,' is failed')
-                return 'fail'
+                return False
         elif value == '3':
             docv = 'B'
             if docv in s:
                 print(name,'',function,' is pass')
             else :
                 print(name,'',function,' is failed')
-                return 'fail'
+                return False
     
 def ssc(alice, bob, charlie):
     circle = [alice, bob, charlie]
@@ -195,10 +195,10 @@ def ssc(alice, bob, charlie):
             if rights == 'w' or rights == 'r':
                 print(f'{circle_name[i]} ssc check is starting')
                 res = domfunction(doc, alicemaxcat if circle_name[i] == 'alice' else bobmaxcat if circle_name[i] == 'bob' else charliemaxcat, circle_name[i], 'ssc')
-                if res == 'fail': 
+                if not res: 
                     print('fail')
-                    return False
-    return True
+                    return True
+    return False
 
 def star(alice, bob, charlie):
     circle = [alice, bob, charlie]
@@ -209,9 +209,9 @@ def star(alice, bob, charlie):
             doc = next(iter(obj))
             rights = next(iter(obj.values()))
             if rights == 'a' or rights == 'r' or rights == 'w':
-                result = domfunction(doc, alicecurrentcat if circle_name[i] == 'alice' else bobcurrentcat if circle_name[i] == 'bob' else charliecurrentcat, circle_name[i], 'star')
-                if result == 'fail': return False
-    return True
+                res = domfunction(doc, alicecurrentcat if circle_name[i] == 'alice' else bobcurrentcat if circle_name[i] == 'bob' else charliecurrentcat, circle_name[i], 'star')
+                if not res: return True
+    return False
 
 def ds(alice, bob, charlie):
     circle = [alice, bob, charlie]
@@ -238,8 +238,6 @@ def ds(alice, bob, charlie):
     #     if list(rightscharlie).count(charlis_rights) > 0:
     #         print('charlie ds check is pass')
 
-
-
 alice = {}
 bob = {}
 charlie = {}
@@ -265,3 +263,8 @@ while (len(args)>0):
 print ("SSC: ", "Yes" if ssc(alice, bob, charlie) else "No")
 print ("Star: ", "Yes" if star(alice, bob, charlie) else "No")
 print ("DS: ", "Yes" if ds(alice, bob, charlie) else "No")
+
+# python3 blpcheck.py A:1:w B:2:r
+# SSC : yes
+# Star : yes
+# DS : no
