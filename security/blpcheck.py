@@ -154,6 +154,7 @@ for c in cat:
 
 #MAIN
 def domfunction(o,s,name,function):
+    # print(o,s,name,function)
     for index,value in enumerate(o):
         if value == '1':
             docv = 'A'
@@ -180,96 +181,63 @@ def domfunction(o,s,name,function):
                 print(name,'',function,' is failed')
                 return 'fail'
     
-    
 def ssc(alice, bob, charlie):
-    #TODO: Implement check for simple security condition
-    if len(alice) !=0:
-       alice_docnum = list(alice.keys())[0]
-       alice_subjectright = list(alice.values())[0]
-
-       if alice_subjectright == 'w' or alice_subjectright == 'r':
-            print('start checking alice')
-            result = domfunction(alice_adocnum, alicemaxcat, 'Alice', 'ssc')
-            if result == 'fail': return False
-    if len(bob) !=0:
-       bob_docnum = list(bob.keys())[0]
-       bob_subjectright = list(bob.values())[0]
-
-       if bob_subjectright == 'w' or bob_subjectright == 'r':
-            print('start checking bob')
-            result = domfunction(bob_docnum, bobmaxcat, 'Bob', 'ssc')
-            if result == 'fail': return False
-    if len(charlie) !=0:
-       charlie_docnum = list(charlie.keys())[0]
-       charlie_subjectright = list(charlie.values())[0]
-
-       if charlie_subjectright == 'w' or charlie_subjectright == 'r':
-            print('start checking charlie')
-            result = domfunction(charlie_docnum, charliemaxcat, 'charlie', 'ssc')
-            if result == 'fail': return False
+    circle = [alice, bob, charlie]
+    circle_name = ['alice', 'bob', 'charlie']
+    # circle = [{'alice', alice}, {'bob', bob}, {'charlice',charlie}]
+    for i in range(len(circle)):
+        obj = circle[i]
+        print(i, obj)
+        if len(obj):
+            print(f'{obj} key {next(iter(obj))} value, {next(iter(obj.values()))}')
+            doc = next(iter(obj))
+            rights = next(iter(obj.values()))
+            if rights == 'w' or rights == 'r':
+                print(f'{circle_name[i]} ssc check is starting')
+                res = domfunction(doc, alicemaxcat if circle_name[i] == 'alice' else bobmaxcat if circle_name[i] == 'bob' else charliemaxcat, circle_name[i], 'ssc')
+                if res == 'fail': 
+                    print('fail')
+                    return False
     return True
 
-
 def star(alice, bob, charlie):
-    #TODO: Implement check for star property
-    if len(alice) != 0:
-       alice_docnum = list(alice.keys())[0]
-       print(alice_docnum)
-       alice_subjectright = list(alice.values())[0]
-       if alice_subjectright == 'a':
-           result = domfunction(alice_docnum, alicecurrentcat, 'alice', 'star')
-           if result == 'fail': return False
-       if alice_subjectright == 'r':
-           result = domfunction(alice_docnum, alicecurrentcat, 'alice', 'star')
-           if result == 'fail': return False
-       if alice_subjectright == 'w':
-              result = domfunction(adocnum, alicecurrentcat, 'alice', 'star')
-              if result == 'fail': return False
-    if len(bob) != 0:
-        bob_docnum = list(bob.keys())[0]
-        bob_subjectright = list(bob.values())[0]
-        if bob_subjectright == 'a':
-            result = domfunction(bob_docnum, bobcurrentcat, 'bob', 'star')
-            if result == 'fail':
-                return False
-        if bob_subjectright == 'r':
-            result = domfunction(bob_docnum, bobcurrentcat, 'bob', 'star')
-            if result == 'fail':
-                return False
-        if bob_subjectright == 'w':
-               result = domfunction(bob_docnum, bobcurrentcat, 'bob', 'star')
-               if result == 'fail':
-                   return False
-
-    if len(charlie) != 0:
-        charlie_docnum = list(charlie.keys())[0]
-        charlie_subjectright = list(charlie.values())[0]
-        if charlie_subjectright == 'a':
-            result = domfunction(charlie_docnum, charliecurrentcat, 'charlie', 'star')
-            if result == 'fail': return False
-        if charlie_subjectright == 'r':
-            result = domfunction(charlie_docnum, charliecurrentcat, 'charlie', 'star')
-            if result == 'fail': return False
-        if charlie_subjectright == 'w':
-               result = domfunction(charlie_docnum, charliecurrentcat, 'charlie', 'star')
-               if result == 'fail': return False
+    circle = [alice, bob, charlie]
+    circle_name = ['alice', 'bob', 'charlie']
+    for i in range(len(circle)):
+        obj = circle[i]
+        if len(obj):
+            doc = next(iter(obj))
+            rights = next(iter(obj.values()))
+            if rights == 'a' or rights == 'r' or rights == 'w':
+                result = domfunction(doc, alicecurrentcat if circle_name[i] == 'alice' else bobcurrentcat if circle_name[i] == 'bob' else charliecurrentcat, circle_name[i], 'star')
+                if result == 'fail': return False
     return False
 
 def ds(alice, bob, charlie):
-#TODO: Implement check for discretionary security condition
-    if len(alice) !=0:	 
-        alice_subjectright = list(alice.values())[0]
-        if list(rightsalice).count(alice_subjectright) > 0:
-            print('Alice check successfully')
-    if len(bob) !=0:	 
-        bob_subjectright = list(bob.values())[0]
-        if list(rightsbob).count(bob_subjectright) > 0:
-            print('Bob check successfully')
-    if len(charlie) !=0:	 
-        charlie_subjectright = list(charlie.values())[0]
-        if list(rightscharlie).count(charlie_subjectright) > 0:
-            print('charlie  check successfully')
+    circle = [alice, bob, charlie]
+    circle_name = ['alice', 'bob', 'charlie']
+    for i in range(len(circle)):
+        obj = circle[i]
+        if len(obj):
+            rights = next(iter(obj.values()))
+            if list((rightsalice if circle_name[i] == 'alice' else rightsbob if circle_name[i] == 'bob' else rightscharlie).values()).count(rights) > 0:
+                print(f'{circle_name[i]} ds check passed')
+
+    # if len(alice) !=0:	 
+    #     alice_rights = next(iter(alice.values()))
+    #     print(rightsalice, "alice", alice_rights)
+    #     if list(rightsalice.values()).count(alice_rights) > 0:
+    #         print('Alice ds check is pass')
+    # if len(bob) !=0:	 
+    #     bob_rights = next(iter(bob.values()))
+    #     if list(rightsbob).count(bob_rights) > 0:
+    #         print('Bob ds check is pass')
+    # if len(charlie) !=0:	 
+    #     charlis_rights = next(iter(charlie.values()))
+    #     if list(rightscharlie).count(charlis_rights) > 0:
+    #         print('charlie ds check is pass')
     return True
+
 
 alice = {}
 bob = {}
