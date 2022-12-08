@@ -9,53 +9,58 @@ import sys
 import re
 
 def encrypt(input, rounds, roundkeys):
-	#TODO: Implement encryption of "input" in "rounds" rounds, using round keys "roundkeys"
-	# Li = Ri-1
-	# Ri = Li-1 ⊕ F(Ri-1， Ki)
-	
+	# Split the input into left and right halves
 	input_l, input_r = [], []
 	input_l.append(bin(int(input[0 : (len(input) // 2)], 2)))
 	input_r.append(bin(int(input[len(input) // 2 :], 2)))
-	print(f'round 1 {input_l} {input_r}')
-
+	
+	# Perform the encryption rounds
 	index = 1
 	while (index < rounds):
 		if index == 0: continue
+		# Ri = Li-1 ⊕ F(Ri-1， Ki)
 		input_l.append(input_r[index - 1])
-		# print(bin(int(input_l[i - 1], 2)), F(input_r[i - 1], roundkeys[i]), bin(int(input_l[i - 1], 2) ^ F(input_r[i - 1], roundkeys[i])))
 		input_r.append(bin(int(input_l[index - 1], 2) ^ F(input_r[index - 1], roundkeys[index])))
-		print(f'round {index + 1} {input_l} {input_r}')
 		index += 1
-	
-	print(input_l[-1], input_r[-1])	
+
+	# Return the encrypted string
 	return ((6 - len(input_l[-1])) * "0" + str(input_l[-1]) + (6 - len(input_r[-1])) * "0" + str(input_r[-1])).replace("0b", "")
+
+def encrypt(input, rounds, roundkeys):
+	# Split the input into left and right halves
+	input_l, input_r = [], []
+	input_l.append(bin(int(input[0 : (len(input) // 2)], 2))) # Get the left half of the input and convert to binary
+	input_r.append(bin(int(input[len(input) // 2 :], 2))) # Get the right half of the input and convert to binary
+
+	# Perform the encryption rounds
+	index = 1
+	while (index < rounds):
+		if index == 0: continue  # Skip the first round, as the input has already been split into left and right halves
+		# set Ri = Li-1 ⊕ F(Ri-1， Ki)
+		# The current left half is the previous right half
+		input_l.append(input_r[index - 1])  
+		# The current right half is the previous left half XORed with the result of the F function
+		input_r.append(bin(int(input_l[index - 1], 2) ^ F(input_r[index - 1], roundkeys[index])))  
+		index += 1
+
+	# Return the encrypted string
+	return ((6 - len(input_l[-1])) * "0" + str(input_l[-1]) + (6 - len(input_r[-1])) * "0" + str(input_r[-1])).replace("0b", "")  # Concatenate the left and right halves and pad with zeros if necessary, then remove the "0b" prefix.
 
 def decrypt(input, rounds, roundkeys):
-	#TODO: Implement decryption of "input" in "rounds" rounds, using round keys "roundkeys"
-	# Ri = Li+1
-    # Li = Ri+1 XOR F(Li+1,Ki)
-	# https://cloud.tencent.com/developer/article/1847884
+    # Split the input into left and right halves
+    input_l = bin(int(input[0 : (len(input) // 2)], 2))
+    input_r = bin(int(input[len(input) // 2 :], 2))
 
-	input_l, input_r = [], []
-	input_l.append(bin(int(input[0 : (len(input) // 2)], 2)))
-	input_r.append(bin(int(input[len(input) // 2 :], 2)))
-	print(f'round 1 {input_l} {input_r}')
+    # Perform "rounds" rounds of decryption
+    for i in range(rounds - 1, 0, -1):
+        # Set Li = Ri and Ri = Li XOR F(Ri, Ki)
+        input_l, input_r = input_r, bin(int(input_l, 2) ^ F(input_r, roundkeys[i]))
 
-	index = rounds
+    # Return the decrypted output
+    return (6 - len(input_l)) * "0" + str(input_l) + (6 - len(input_r)) * "0" + str(input_r)
 
-	while (index > 0):
-		if index == rounds: continue
-		input_l.append(input_r[rounds - index])
-		# print(bin(int(input_l[i - 1], 2)), F(input_r[i - 1], roundkeys[i]), bin(int(input_l[i - 1], 2) ^ F(input_r[i - 1], roundkeys[i])))
-		input_r.append(bin(int(input_l[rounds - index + 1], 2) ^ F(input_r[rounds - index + 1], roundkeys[rounds - index])))
-		print(f'round {rounds - index - 1} {input_l} {input_r}')
-		index -= 1
-
-	print(input_l[-1], input_r[-1])	
-	return ((6 - len(input_l[-1])) * "0" + str(input_l[-1]) + (6 - len(input_r[-1])) * "0" + str(input_r[-1])).replace("0b", "")
-
-def F(input, key):
-	return int(input, 2) & int(key, 2) + 1
+def F(input, key): # F method, just (A & B) + 1
+    return int(input, 2) & int(key, 2) + 1
 
 opts = [opt for opt in sys.argv[1:] if opt.startswith("-")]
 args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]

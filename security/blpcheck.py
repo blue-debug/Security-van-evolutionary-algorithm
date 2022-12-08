@@ -153,69 +153,81 @@ for c in cat:
 		charliecurrentcat.append(c)
 
 def switch_function(o, s, name, function):
-    # print(o,s,name,function)
-    for index, value in enumerate(o):
+    # Loop through the values in the given object
+    for value in o:
+        # Check the value and return False if the corresponding condition is not satisfied
         if value == '1':
-            docv = 'A'
-            if docv in s: pass
-            docv = 'B'
-            if docv in s: pass
-            else : return False
+            if 'A' not in s or 'B' not in s: return False
         elif value == '2':
-            docv = 'C'
-            if docv in s: pass
-            else : return False
+            if 'C' not in s: return False
         elif value == '3':
-            docv = 'B'
-            if docv in s: pass
-            else : return False
+            if 'B' not in s: return False
+    # All conditions are satisfied, return True
     return True
-
 
 def ssc(alice, bob, charlie):
+    # Initialize the data
     circle = [alice, bob, charlie]
     circle_name = ['alice', 'bob', 'charlie']
-    # circle = [{'alice', alice}, {'bob', bob}, {'charlice',charlie}]
+    
+    # Traverse each member in the data
     for i in range(len(circle)):
-        # print(i)
         obj = circle[i]
-        # print(i, obj)
+        # Check if the current member has a document
         if len(obj):
-            # print(f'{obj} key {next(iter(obj))} value, {next(iter(obj.values()))}')
-            doc = next(iter(obj))
-            rights = next(iter(obj.values()))
+            # Get the document name and rights
+            doc, rights = next(iter(obj)), next(iter(obj.values()))
+            # Check if the current member has write or read rights
             if rights == 'w' or rights == 'r':
-                # print(f'{circle_name[i]} ssc check is starting')
+                # Call the switch_function to check if the rights are valid
                 res = switch_function(doc, alicemaxcat if circle_name[i] == 'alice' else bobmaxcat if circle_name[i] == 'bob' else charliemaxcat, circle_name[i], 'ssc')
                 if not res: 
-                    # print('fail')
                     return False
+    # All rights are valid, return True
     return True
+
 
 def star(alice, bob, charlie):
+    # Initialize the data
     circle = [alice, bob, charlie]
     circle_name = ['alice', 'bob', 'charlie']
+    
+    # Traverse each member in the data
     for i in range(len(circle)):
         obj = circle[i]
+        # Check if the current member has a document
         if len(obj):
-            doc = next(iter(obj))
-            rights = next(iter(obj.values()))
+            # Get the document name and rights
+            doc, rights = next(iter(obj)), next(iter(obj.values()))
+            # Check if the current member has access, write or read rights
             if rights == 'a' or rights == 'r' or rights == 'w':
+                # Call the switch_function to check if the rights are valid
                 res = switch_function(doc, alicecurrentcat if circle_name[i] == 'alice' else bobcurrentcat if circle_name[i] == 'bob' else charliecurrentcat, circle_name[i], 'star')
-                if not res: return False
+                if not res: 
+                    # Return False if the rights are not valid
+                    return False
+    # All rights are valid, return True
     return True
 
+
 def ds(alice, bob, charlie):
+    # Initialize the data
     circle = [alice, bob, charlie]
     circle_name = ['alice', 'bob', 'charlie']
+    # Traverse each member in the data
     for i in range(len(circle)):
         obj = circle[i]
+        # Check if the current member has a document
         if len(obj):
+            # Get the rights of the current member
             rights = next(iter(obj.values()))
+            # Check if the rights of the current member are unique in the circle
             if list((rightsalice if circle_name[i] == 'alice' else rightsbob if circle_name[i] == 'bob' else rightscharlie).values()).count(rights) == 0:
+                # Return False if the rights are not unique
                 return False
-                # print(f'{circle_name[i]} ds check passed')
+    # All rights are unique, return True
     return True
+
 
 alice = {}
 bob = {}
